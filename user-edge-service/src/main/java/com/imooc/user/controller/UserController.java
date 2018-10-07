@@ -58,7 +58,7 @@ public class UserController {
             logger.error("===UserController===login()===exception: ");
             logger.error(e.getMessage());
             e.printStackTrace();
-            return Response.USERNAME_PASSWORD_INVALID;
+            return Response.USERSERVICE_CONNECT_EXCEPTION;
         }
         if(userInfo==null) {
             return Response.USERNAME_PASSWORD_INVALID;
