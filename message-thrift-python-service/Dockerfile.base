@@ -1,0 +1,5 @@
+FROM python:3.6
+MAINTAINER songjiang whusj@163.com
+
+RUN pip install thrift
+

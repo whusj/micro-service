@@ -1,6 +1,7 @@
 package com.imooc.user.thrift;
 
 import com.imooc.thrift.user.UserService;
+import com.imooc.user.service.UserSerivceImpl;
 import org.apache.thrift.TProcessor;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.server.TNonblockingServer;
@@ -8,6 +9,8 @@ import org.apache.thrift.server.TServer;
 import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.TNonblockingServerSocket;
 import org.apache.thrift.transport.TTransportException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +23,8 @@ import javax.annotation.PostConstruct;
 @Configuration
 public class ThriftServer {
 
+    private Logger logger = LoggerFactory.getLogger(ThriftServer.class);
+
     @Value("${service.port}")
     private int servicePort;
 
@@ -28,6 +33,7 @@ public class ThriftServer {
 
     @PostConstruct
     public void startThriftServer() {
+        logger.error("===ThriftServer===startThriftServer()");
 
         TProcessor processor = new UserService.Processor<>(userService);
 
@@ -35,6 +41,8 @@ public class ThriftServer {
         try {
             socket = new TNonblockingServerSocket(servicePort);
         } catch (TTransportException e) {
+            logger.error("===ThriftServer===startThriftServer()===exception");
+            logger.error(e.getMessage());
             e.printStackTrace();
         }
         TNonblockingServer.Args args = new TNonblockingServer.Args(socket);
@@ -44,5 +52,6 @@ public class ThriftServer {
 
         TServer server = new TNonblockingServer(args);
         server.serve();
+        logger.error("===ThriftServer===startThriftServer()===finished.");
     }
 }

@@ -2,6 +2,7 @@ package com.imooc.user.thrift;
 
 import com.imooc.thrift.message.MessageService;
 import com.imooc.thrift.user.UserService;
+import com.imooc.user.controller.UserController;
 import org.apache.thrift.TServiceClient;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
@@ -9,6 +10,8 @@ import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +20,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ServiceProvider {
+
+    private Logger logger = LoggerFactory.getLogger(ServiceProvider.class);
 
     @Value("${thrift.user.ip}")
     private String serverIp;
@@ -45,11 +50,14 @@ public class ServiceProvider {
     }
 
     public <T> T getService(String ip, int port, ServiceType serviceType) {
+        logger.error("===ServiceProvider===getService()===serviceType: " + serviceType);
         TSocket socket = new TSocket(ip, port, 3000);
         TTransport transport = new TFramedTransport(socket);
         try {
             transport.open();
         } catch (TTransportException e) {
+            logger.error("===ServiceProvider===getService()===exception:");
+            logger.error(e.getMessage());
             e.printStackTrace();
             return null;
         }

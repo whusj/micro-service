@@ -1,2 +1,2 @@
 Micro-Service
-Thrift+Python
+Thrift+Python+Dubbo+Zookeeper+Mysql

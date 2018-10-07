@@ -9,6 +9,8 @@ import com.imooc.user.thrift.ServiceProvider;
 import org.apache.commons.lang.StringUtils;
 import org.apache.thrift.TException;
 import org.apache.tomcat.util.buf.HexUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +30,8 @@ import java.util.Random;
 @RequestMapping("/user")
 public class UserController {
 
+    private Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
     private ServiceProvider serviceProvider;
 
@@ -36,6 +40,7 @@ public class UserController {
 
     @RequestMapping(value="/login", method = RequestMethod.GET)
     public String login() {
+        logger.error("===UserController===login()===getMethod().");
         return "login";
     }
 
@@ -43,12 +48,15 @@ public class UserController {
     @ResponseBody
     public Response login(@RequestParam("username")String username,
                       @RequestParam("password")String password) {
+        logger.error("===UserController===login()===postMethod().");
 
         //1. 验证用户名密码
         UserInfo userInfo = null;
         try {
             userInfo = serviceProvider.getUserService().getUserByName(username);
         } catch (TException e) {
+            logger.error("===UserController===login()===exception: ");
+            logger.error(e.getMessage());
             e.printStackTrace();
             return Response.USERNAME_PASSWORD_INVALID;
         }
@@ -92,6 +100,8 @@ public class UserController {
                 return Response.SEND_VERIFYCODE_FAILED;
             }
         } catch (TException e) {
+            logger.error("===UserController===sendVerifyCode()===exception: ");
+            logger.error(e.getMessage());
             e.printStackTrace();
             return Response.exception(e);
         }
@@ -132,6 +142,8 @@ public class UserController {
         try {
             serviceProvider.getUserService().regiserUser(userInfo);
         } catch (TException e) {
+            logger.error("===UserController===register()===exception: ");
+            logger.error(e.getMessage());
             e.printStackTrace();
             return Response.exception(e);
         }

@@ -8,6 +8,8 @@ import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ServiceProvider {
+    private Logger logger = LoggerFactory.getLogger(ServiceProvider.class);
 
     @Value("${thrift.user.ip}")
     private String serverIp;
@@ -34,11 +37,14 @@ public class ServiceProvider {
     }
 
     public <T> T getService(String ip, int port, ServiceType serviceType) {
-        TSocket socket = new TSocket(ip, port, 3000);
+        logger.error("===ServiceProvider===getService()===serviceType: " + serviceType);
+        TSocket socket = new TSocket(ip, port, 10000);
         TTransport transport = new TFramedTransport(socket);
         try {
             transport.open();
         } catch (TTransportException e) {
+            logger.error("===ServiceProvider===getService()===exception: ");
+            logger.error(e.getMessage());
             e.printStackTrace();
             return null;
         }
