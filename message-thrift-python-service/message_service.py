@@ -23,7 +23,7 @@ class MessageServiceHandler:
         messageObj['To'] = email
         messageObj['Subject'] = Header('慕课网邮件', 'utf-8')
         try:
-            smtpObj = smtplib.SMTP('smpt.163.com')
+            smtpObj = smtplib.SMTP('smtp.163.com')
             smtpObj.login(sender, authCode)
             smtpObj.sendmail(sender, [email], messageObj.as_string())
             print ("send mail success")

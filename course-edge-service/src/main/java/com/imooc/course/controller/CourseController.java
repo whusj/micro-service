@@ -31,6 +31,9 @@ public class CourseController {
         logger.error("===CourseController===courseList()===");
         UserDTO user = (UserDTO)request.getAttribute("user");
         logger.error("===CourseController===courseList()===userInfo: "+user.toString());
+        if (courseService == null){
+            logger.error("courseService is null. ");
+        }
         return courseService.courseList();
     }
 }

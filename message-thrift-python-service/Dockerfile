@@ -1,4 +1,4 @@
-FROM python-base:latest
+FROM hub.mooc.com:10000/micro-service/python-base:latest
 
 ENV PYTHONPATH /
 

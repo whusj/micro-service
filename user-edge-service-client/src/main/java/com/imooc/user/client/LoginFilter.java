@@ -49,7 +49,8 @@ public abstract class LoginFilter implements Filter{
                 }
             }
         }
-        logger.error("===LoginFilter===doFilter()===3===");
+
+        logger.error("===LoginFilter===doFilter()===3===token: " + token);
         UserDTO userDTO = null;
         if(StringUtils.isNotBlank(token)){
             logger.error("===LoginFilter===doFilter()===4===");

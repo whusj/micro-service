@@ -1,4 +1,4 @@
-FROM openjdk:8-jre
+FROM hub.mooc.com:10000/micro-service/openjdk:8-jre
 MAINTAINER songjiang whusj@163.com
 
 COPY target/api-gateway-zuul-1.0-SNAPSHOT.jar /api-gateway.jar
