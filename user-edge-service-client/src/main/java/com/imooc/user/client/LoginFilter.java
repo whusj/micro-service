@@ -67,8 +67,8 @@ public abstract class LoginFilter implements Filter{
 
         if (userDTO == null){
             logger.error("===LoginFilter===doFilter()===userDTO is null.");
-            logger.error("===response.sendRedirect: http://user-edge-service:8082/user/login");
-            response.sendRedirect("http://user-edge-service:8082/user/login");
+            logger.error("===response.sendRedirect: http://www.mooc.com:8082/user/login");
+            response.sendRedirect("http://www.mooc.com:8082/user/login");
             return;
         }
         login(request,response,userDTO);
@@ -79,7 +79,7 @@ public abstract class LoginFilter implements Filter{
     protected abstract void login(HttpServletRequest request, HttpServletResponse response, UserDTO userDTO);
 
     private UserDTO reqestUserInfo(String token) {
-        String url = "http://user-edge-service:8082/user/authentication";
+        String url = "http://www.mooc.com:8082/user/authentication";
         logger.error("===LoginFilter===reqestUserInfo()===token: "+ token);
         HttpClient client = new DefaultHttpClient();
         HttpPost post = new HttpPost(url);

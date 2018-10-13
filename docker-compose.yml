@@ -2,15 +2,15 @@ version: '3'
 
 services:
   message-service:
-    image: message-service:latest
+    image: hub.mooc.com:10000/micro-service/message-service:latest
 
   user-service:
-    image: user-service:latest
+    image: hub.mooc.com:10000/micro-service/user-service:latest
     command:
     - "--mysql.address=192.168.202.1"
 
   user-edge-service:
-    image: user-edge-service:latest
+    image: hub.mooc.com:10000/micro-service/user-edge-service:latest
     links:
     - user-service
     - message-service
@@ -21,7 +21,7 @@ services:
     - 8082:8082
 
   course-service:
-    image: course-service:latest
+    image: hub.mooc.com:10000/micro-service/course-service:latest
     links:
     - user-service
     command:
@@ -29,7 +29,7 @@ services:
     - "--zookeeper.address=192.168.202.61:2181?backup=192.168.202.62:2181,192.168.202.63:2181"
 
   course-edge-service:
-    image: course-edge-service:latest
+    image: hub.mooc.com:10000/micro-service/course-edge-service:latest
     links:
     - user-edge-service
     command:
@@ -38,7 +38,7 @@ services:
     - 8081:8081
 
   api-gateway-zuul:
-    image: api-gateway-zuul:latest
+    image: hub.mooc.com:10000/micro-service/api-gateway-zuul:latest
     links:
     - user-edge-service
     - course-edge-service
